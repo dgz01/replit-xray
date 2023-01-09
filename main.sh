@@ -1,17 +1,42 @@
 #!/bin/sh
-
 # 脚本项目的 URL 是：
 # https://github.com/XTLS/Xray-install
 # FILES_PATH 默认路径./
 FILES_PATH=${FILES_PATH:-./}
-
-# 全球口头语
-
 # 设置Xray 当前版本号
 CURRENT_VERSION=''
 # 设置Xray 最新发布版本号
 RELEASE_LATEST=''
-
+echo_color() {
+    case $1 in
+        black)
+            echo -e "\033[47;30m\033[1m\033[3m$2\033[0m"
+            ;;
+        red)
+            echo -e "\033[40;31m\033[1m\033[3m$2\033[0m"
+            ;;
+        green)
+            echo -e "\033[42;32m\033[1m\033[3m$2\033[0m"
+            ;;
+        yellow)
+            echo -e "\033[40;33m\033[1m\033[3m$2\033[0m" 
+            ;;
+        blue)
+            echo -e "\033[40;34m\033[1m\033[3m$2\033[0m"
+            ;;
+        purple)
+            echo -e "\033[40;35m\033[1m\033[3m$2\033[0m" 
+            ;;
+        cyan)
+            echo -e "\033[40;36m\033[1m\033[3m$2\033[0m"
+            ;;
+        white)
+            echo -e "\033[40;37m\033[1m\033[3m$2\033[0m" 
+            ;;
+        *) 
+            echo "Example: echo_color red string"
+    esac
+}
 # 1.获取Xray 当前版本号
 get_current_version() {
     # [ -f file ]：如果 file 存在并且是一个普通文件，则为true
@@ -151,9 +176,9 @@ run_xray() {
     PATH_IN_LINK=$(echo ${USER_PATH} | sed "s|\/|\%2F|g")
     # 拼接配置文件
     echo ""
-    echo "Share Link:"
-    echo trojan://"${USER_PASSWORD}@${REPL_SLUG}.${REPL_OWNER}.repl.co:443?security=tls&type=ws&path=${PATH_IN_LINK}#Replit"
-    echo trojan://"${USER_PASSWORD}@${REPL_SLUG}.${REPL_OWNER}.repl.co:443?security=tls&type=ws&path=${PATH_IN_LINK}#Replit" >/tmp/link
+    echo_color red "Share Link:"
+    echo_color green trojan://"${USER_PASSWORD}@${REPL_SLUG}.${REPL_OWNER}.repl.co:443?security=tls&type=ws&path=${PATH_IN_LINK}#Replit"
+    echo_color green trojan://"${USER_PASSWORD}@${REPL_SLUG}.${REPL_OWNER}.repl.co:443?security=tls&type=ws&path=${PATH_IN_LINK}#Replit" >/tmp/link
     echo ""
     # 生成二维码文件
     # qrencode -t ansiutf8 < /tmp/link
@@ -172,12 +197,16 @@ get_current_version
 # 测试变量的值
 #echo ${TMP_DIRECTORY}
 #echo ${ZIP_FILE}
-echo "系统当前使用的xray版本:${CURRENT_VERSION}"
+echo
+echo
+echo_color yellow  "系统当前使用的xray版本:${CURRENT_VERSION}"
 # 2.获取Xray 最新发布版本号
 get_latest_version
-echo "目前最新的xray版本:${RELEASE_LATEST}"
+echo
+echo_color purple  "目前最新的xray版本:${RELEASE_LATEST}"
 # 3.判断当前版本号和最新版本号是否一致
 if [ "${RELEASE_LATEST}" = "${CURRENT_VERSION}" ]; then
+    # echo "xray的安装目录是:${TMP_DIRECTORY}}"
     # 删除临时目录
    "rm" -rf "$TMP_DIRECTORY"
    # 执行run_xray函数
@@ -204,8 +233,8 @@ fi
 decompression "$ZIP_FILE"
 # 6.安装xray
 install_xray
-echo ${TMP_DIRECTORY}
+# echo "xray的安装目录是:${TMP_DIRECTORY}"
 # 删除临时目录
-# "rm" -rf "$TMP_DIRECTORY"
+"rm" -rf "$TMP_DIRECTORY"
 # 7.运行xray
 run_xray
