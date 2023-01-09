@@ -156,7 +156,7 @@ run_xray() {
     echo trojan://"${USER_PASSWORD}@${REPL_SLUG}.${REPL_OWNER}.repl.co:443?security=tls&type=ws&path=${PATH_IN_LINK}#Replit" >/tmp/link
     echo ""
     # 生成二维码文件
-    qrencode -t ansiutf8 < /tmp/link
+    # qrencode -t ansiutf8 < /tmp/link
     # 循环读取
     tail -f
 }
@@ -172,10 +172,10 @@ get_current_version
 # 测试变量的值
 #echo ${TMP_DIRECTORY}
 #echo ${ZIP_FILE}
-#echo ${CURRENT_VERSION}
+echo "系统当前使用的xray版本:${CURRENT_VERSION}"
 # 2.获取Xray 最新发布版本号
 get_latest_version
-# echo ${RELEASE_LATEST}
+echo "目前最新的xray版本:${RELEASE_LATEST}"
 # 3.判断当前版本号和最新版本号是否一致
 if [ "${RELEASE_LATEST}" = "${CURRENT_VERSION}" ]; then
     # 删除临时目录
@@ -204,6 +204,8 @@ fi
 decompression "$ZIP_FILE"
 # 6.安装xray
 install_xray
-"rm" -rf "$TMP_DIRECTORY"
+echo ${TMP_DIRECTORY}
+# 删除临时目录
+# "rm" -rf "$TMP_DIRECTORY"
 # 7.运行xray
 run_xray
