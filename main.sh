@@ -184,11 +184,11 @@ run_xray() {
     echo ""
     echo_color red "Share Link:"
     echo_color black trojan://"${USER_PASSWORD}@${REPL_SLUG}.${REPL_OWNER}.repl.co:443?security=tls&type=ws&path=${PATH_IN_LINK}#Replit"
-    echo_color green trojan://"${USER_PASSWORD}@${REPL_SLUG}.${REPL_OWNER}.repl.co:443?security=tls&type=ws&path=${PATH_IN_LINK}#Replit" >/tmp/link
+    echo trojan://"${USER_PASSWORD}@${REPL_SLUG}.${REPL_OWNER}.repl.co:443?security=tls&type=ws&path=${PATH_IN_LINK}#Replit" >/tmp/link
     echo ""
-    # 生成二维码文件
+    # 生成二维码文件需要加载pkgs.qrencode.bin
     # qrencode -t ansiutf8 < /tmp/link
-    # 循环读取
+    # 不断的刷新日志信息
     tail -f
 }
 
