@@ -11,28 +11,28 @@ RELEASE_LATEST=''
 echo_color() {
     case $1 in
         black)
-            echo -e "\033[47;30m\033[1m\033[3m$2\033[0m"
+            echo -e "\033[42;30m\033[1m\033[3m$2\033[0m"
             ;;
         red)
-            echo -e "\033[40;31m\033[1m\033[3m$2\033[0m"
+            echo -e "\033[40;31m\033[1m\033[3m$2\0331m\033[0m"
             ;;
         green)
-            echo -e "\033[42;32m\033[1m\033[3m$2\033[0m"
+            echo -e "\033[40;32m\033[1m\033[3m$2\0331m\033[0m"
             ;;
         yellow)
-            echo -e "\033[40;33m\033[1m\033[3m$2\033[0m" 
+            echo -e "\033[40;33m\033[1m\033[3m$2\0331m\033[0m" 
             ;;
         blue)
-            echo -e "\033[40;34m\033[1m\033[3m$2\033[0m"
+            echo -e "\033[40;34m\033[1m\033[3m$2\0331m\033[0m"
             ;;
         purple)
-            echo -e "\033[40;35m\033[1m\033[3m$2\033[0m" 
+            echo -e "\033[40;35m\033[1m\033[3m$2\0331m\033[0m" 
             ;;
         cyan)
-            echo -e "\033[40;36m\033[1m\033[3m$2\033[0m"
+            echo -e "\033[40;36m\033[1m\033[3m$2\0331m\033[0m"
             ;;
         white)
-            echo -e "\033[40;37m\033[1m\033[3m$2\033[0m" 
+            echo -e "\033[40;37m\033[2m\033[3m$2\0331m\033[0m" 
             ;;
         *) 
             echo "Example: echo_color red string"
@@ -136,18 +136,22 @@ install_xray() {
 }
 # 7.运行xray
 run_xray() {
-    # 获取用户设置的环境变量值，通过key(PASSWORD)=用户设置的密码
+    # 将服务器上的变量tr_password的默认值传给TR_PASSWORD变量
     TR_PASSWORD=$(curl -s $REPLIT_DB_URL/tr_password)
-    # 获取用户设置的环境变量值，通过key(PATH)=用户设置WSPATH路径
+    # 将服务器上变量tr_path的默认值传给TR_PATH变量
     TR_PATH=$(curl -s $REPLIT_DB_URL/tr_path)
-    # 判断密码是否为空    
+    # 这里是调试信息
+    echo_color white $(curl -s "$REPLIT_DB_URL?prefix=")
+    echo_color white "服务器上的默认密码:$(curl -s $REPLIT_DB_URL/tr_password)"
+    echo_color white "服务器上的默认路径:$(curl -s $REPLIT_DB_URL/tr_path)"
+    # 判断服务器上的默认密码是否为空    
     if [ "${TR_PASSWORD}" = "" ]; then
         # 随机生成一个8位密码
         NEW_PASS="$(echo $RANDOM | md5sum | head -c 8; echo)"
         # 将密码上传到服务器
         curl -sXPOST $REPLIT_DB_URL/tr_password="${NEW_PASS}" 
     fi
-    # 判断WSPATH路径是否为空
+    # 判断服务器默认的WSPATH路径是否为空
     if [ "${TR_PATH}" = "" ]; then
         # 随机生成一个6位的路径
         NEW_PATH=$(echo $RANDOM | md5sum | head -c 6; echo)
@@ -156,15 +160,15 @@ run_xray() {
     fi
     # 判断用户设置的密码是否为空
     if [ "${PASSWORD}" = "" ]; then
-        # 拉取随机生成的服务器密码
+        # 获取服务器上的密码
         USER_PASSWORD=$(curl -s $REPLIT_DB_URL/tr_password)
     else
-        # 获取用户输入的密码值
+        # 获取用户输入的密码
         USER_PASSWORD=${PASSWORD}
     fi
     # 判断用户设置的WSPATH路径是否为空
     if [ "${WSPATH}" = "" ]; then
-        # 将数据库随机生成的值给用户路径
+        # 获取服务器上生成的WSPATH路径
         USER_PATH=/$(curl -s $REPLIT_DB_URL/tr_path)
     else
         # 获取用户输入的WSPATH的值
@@ -179,7 +183,7 @@ run_xray() {
     # 拼接配置文件
     echo ""
     echo_color red "Share Link:"
-    echo_color green trojan://"${USER_PASSWORD}@${REPL_SLUG}.${REPL_OWNER}.repl.co:443?security=tls&type=ws&path=${PATH_IN_LINK}#Replit"
+    echo_color black trojan://"${USER_PASSWORD}@${REPL_SLUG}.${REPL_OWNER}.repl.co:443?security=tls&type=ws&path=${PATH_IN_LINK}#Replit"
     echo_color green trojan://"${USER_PASSWORD}@${REPL_SLUG}.${REPL_OWNER}.repl.co:443?security=tls&type=ws&path=${PATH_IN_LINK}#Replit" >/tmp/link
     echo ""
     # 生成二维码文件
