@@ -16,11 +16,9 @@
 
 ## 部署
  
-1. 前往 replit.com 注册账户，然后点击下方 注  册 按钮
+1. 前往 [replit.com 注册账户](https://replit.com/signup)
 
-<a href="https://repl.it/">
-  <img alt="注  册" src="https://replit.com/signup" style="height: 40px; width: 190px;" />
-</a>
+
 
 
 ### 
