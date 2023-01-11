@@ -19,7 +19,7 @@
 1. 前往 replit.com 注册账户，然后点击下方 注  册 按钮
 
 <a href="https://repl.it/">
-  <img alt="注  册" src="https://repl.it/badge/github/andbruibm/reader-replit" style="height: 40px; width: 190px;" />
+  <img alt="注  册" src="https://replit.com/signup" style="height: 40px; width: 190px;" />
 </a>
 
 
